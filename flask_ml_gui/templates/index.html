@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Website Purchase Prediction</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .feature-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        select, input {
+            width: 100%;
+            padding: 5px;
+        }
+        button {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Website Purchase Prediction</h1>
+    <form action="/predict" method="post">
+        {% for feature in metadata %}
+        <div class="feature-group">
+            <label>{{ feature.description }}</label>
+            {% if feature.type == 'dropdown' %}
+                <select name="{{ feature.name }}" required>
+                    <option value="">Select {{ feature.description }}</option>
+                    {% for option in feature.options %}
+                    <option value="{{ option }}">{{ option }}</option>
+                    {% endfor %}
+                </select>
+            {% else %}
+                <input 
+                    type="number" 
+                    name="{{ feature.name }}" 
+                    step="0.01" 
+                    placeholder="Enter {{ feature.description }}"
+                    required
+                >
+            {% endif %}
+        </div>
+        {% endfor %}
+        <button type="submit">Predict Purchase Likelihood</button>
+    </form>
+</body>
+</html>
